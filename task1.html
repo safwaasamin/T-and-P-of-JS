@@ -1,11 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap accordian (only css) using HTML and JavaScript</title>
-</head>
-<body>
-    
-</body>
+    <title>Custom Accordion</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <style>
+        body {
+            background-color: #c7ddf3;
+            font-family: Arial, sans-serif;
+            margin: auto;
+            width: 50%;
+        }
+        h2, h6 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #0f4982;
+        }
+        .accordion .card {
+            border-bottom: 1px solid #000000;
+            border-radius: 5px;
+        }
+        .accordion .card-header {
+            background-color: #1d69ba84;
+            color: #000000;
+            border-radius: 5px;
+        }
+        .accordion .card-header button {
+            width: 100%;
+            text-align: left;
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;
+        }
+        .accordion .card-header button:hover {
+            text-decoration: none;
+            color: #4a4a4a;
+        }
+        .accordion .card-header button:focus {
+            outline: none;
+        }
+        .accordion .card-body {
+            padding: 15px;
+            font-size: 16px;
+            color: #343a40;
+        }
+        .btn-link .fa {
+        float: right;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2>Know more on JavaScript DOM</h2>
+      <h6>Bootstrap Accordion using JavaScript</h6>
+      <div id="accordion" class="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-target="#collapseOne">
+                What is DOM used for in JavaScript?
+                <i class="fa fa-chevron-up"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse show"
+            aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              Allows us to create, change, or remove elements from the document
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-target="#collapseTwo">
+                How many DOM are there in JavaScript?
+                <i class="fa fa-chevron-down"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+            data-parent="#accordion">
+            <div class="card-body">
+              3 different parts: Core DOM, XML DOM & HTML DOM
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed"
+                data-target="#collapseThree">
+                Why is DOM needed in JavaScript?
+                <i class="fa fa-chevron-down"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse"
+            aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              To access the document and its elements.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed"
+                data-target="#collapseFour">
+                What is actual DOM in JavaScript?
+                <i class="fa fa-chevron-down"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFour" class="collapse"
+            aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+              Real DOM is the actual structure represented in the User Interface
+              while Virtual DOM is the memory representation of the same.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed"
+                data-target="#collapseFive">
+                What is innerHTML?
+                <i class="fa fa-chevron-down"></i>
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFive" class="collapse"
+            aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+              The innerHTML property returns: The text content of the element,
+              including all spacing and inner HTML tags.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const accordion = document.getElementById('accordion');
+        accordion.addEventListener('click', function(e) {
+          if (e.target.matches('.btn-link')) {
+            const target = document.querySelector(e.target.getAttribute('data-target'));
+            const currentlyActive = accordion.querySelector('.collapse.show');
+            const icon = e.target.querySelector('.fa');
+
+            if (currentlyActive && currentlyActive !== target) {
+              currentlyActive.classList.remove('show');
+              currentlyActive.previousElementSibling.querySelector('.fa').classList.remove('fa-chevron-up');
+              currentlyActive.previousElementSibling.querySelector('.fa').classList.add('fa-chevron-down');
+            }
+
+            target.classList.toggle('show');
+            icon.classList.toggle('fa-chevron-up');
+            icon.classList.toggle('fa-chevron-down');
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
