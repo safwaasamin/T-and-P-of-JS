@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Search System</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Roboto+Slab:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: rgb(34, 193, 195);
+            background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+            color: #2c3e50;
+            font-size: 36px;
+            font-family: cursive;
+        }
+
+        #search {
+            width: 50%;
+            padding: 15px;
+            margin: 20px auto;
+            border: 2px solid #3d447b;
+            border-radius: 8px;
+            font-size: 18px;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        .faq-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq {
+            background-color: #ffffff;
+            border: 2px solid #3d447b;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .faq-header {
+            cursor: pointer;
+            padding: 20px;
+            background-color: #A64DB6;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .arrow {
+            font-size: 18px;
+            transition: transform 0.4s ease;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            background-color: #9452A5;
+            padding: 0 20px;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .faq-content.show {
+            padding: 20px;
+            max-height: 150px;
+        }
+
+        .faq-content p {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            color: #fafcfd;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>FAQ Search System</h1>
+    <input type="text" id="search" placeholder="Search FAQs..." onkeyup="filterFAQs()">
+
+    <div id="faq-container" class="faq-container"></div>
+
+    <script>
+
+        const faqs = [
+            { question: "What is a variable?", answer: "A variable is used to store data in a program." },
+            { question: "How do I create an array?", answer: "You can create an array using square brackets [ ]." },
+            { question: "What is a function?", answer: "A function is a block of code designed to perform a specific task." },
+            { question: "What is DOM manipulation?", answer: "DOM manipulation refers to changing the structure of a webpage using JavaScript." },
+            { question: "What is an event listener?", answer: "An event listener listens for events like clicks or key presses on the webpage." },
+            { question: "What is a loop?", answer: "A loop is used to repeat a block of code until a specific condition is met." },
+            { question: "How do I declare a variable in JavaScript?", answer: "You can use var, let, or const to declare a variable." },
+            { question: "What is an object in JavaScript?", answer: "An object is a collection of properties and methods." },
+            { question: "What is the purpose of an array?", answer: "An array is used to store multiple values in a single variable." },
+            { question: "How do I add an item to an array?", answer: "You can add an item to an array using the push() method." },
+            { question: "What is the DOM?", answer: "The DOM is a programming interface for HTML documents." },
+            { question: "What are JavaScript operators?", answer: "Operators are used to perform operations on variables and values." },
+            { question: "What is conditional logic?", answer: "Conditional logic allows you to run specific code based on conditions using if/else statements." },
+            { question: "What are string methods?", answer: "String methods are built-in JavaScript functions used to manipulate and format strings." },
+            { question: "What is the purpose of the 'return' keyword?", answer: "The 'return' keyword exits a function and optionally returns a value." },
+            { question: "What is an anonymous function?", answer: "An anonymous function is a function without a name." },
+            { question: "What is a callback function?", answer: "A callback function is a function passed as an argument to another function." },
+            { question: "What is a 'for' loop?", answer: "A 'for' loop allows you to repeatedly run a block of code a specific number of times." },
+            { question: "What is DOMContentLoaded?", answer: "DOMContentLoaded is an event that triggers when the HTML document has been fully loaded and parsed." },
+            { question: "How do I select an HTML element using JavaScript?", answer: "You can select elements using document.getElementById() or document.querySelector()." }
+        ];
+
+        function loadFAQs() {
+            const container = document.getElementById('faq-container');
+            container.innerHTML = '';
+            faqs.forEach((faq, index) => {
+                container.innerHTML += `
+          <div class="faq">
+            <div class="faq-header" onclick="toggleFAQ(${index})">
+              <span>${faq.question}</span>
+              <span class="arrow" id="arrow-${index}">&#9660;</span>
+            </div>
+            <div class="faq-content" id="faq-content-${index}">
+              <p>${faq.answer}</p>
+            </div>
+          </div>
+        `;
+            });
+        }
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const arrow = document.getElementById(`arrow-${index}`);
+
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+        function filterFAQs() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const faqElements = document.querySelectorAll('.faq');
+
+            faqElements.forEach(faq => {
+                const question = faq.querySelector('.faq-header').textContent.toLowerCase();
+                const answer = faq.querySelector('.faq-content').textContent.toLowerCase();
+
+                if (question.includes(searchInput) || answer.includes(searchInput)) {
+                    faq.classList.remove('hidden');
+                } else {
+                    faq.classList.add('hidden');
+                }
+            });
+        }
+
+        window.onload = loadFAQs;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        /* Import a custom font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+
+            background: rgb(63, 94, 251);
+            background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+        }
+
+        .container {
+            background-color: rgb(238,174,202);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 500px;
+            backdrop-filter: blur(10px);
+            /* Optional: adds a blur effect to the container */
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            width: 60px;
+            margin: 10px;
+            text-align: center;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #0056b3;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 0, 255, 0.5);
+        }
+
+        input[type="number"]:hover {
+            border-color: #0056b3;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 0, 255, 0.5);
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.3em;
+            transition: color 0.3s;
+        }
+
+        #result:hover {
+            color: #007BFF;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .options {
+            text-align: left;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        .strength-meter {
+            margin-top: 20px;
+        }
+
+        #strengthBar {
+            width: 100%;
+            height: 20px;
+            background-color: lightgray;
+            margin-top: 5px;
+            transition: background-color 0.3s, width 0.3s;
+        }
+
+        #strengthBar[data-strength='weak'] {
+            background-color: red;
+        }
+
+        #strengthBar[data-strength='medium'] {
+            background-color: orange;
+        }
+
+        #strengthBar[data-strength='strong'] {
+            background-color: green;
+        }
+
+        #copyBtn {
+            margin-top: 10px;
+            background-color: #28a745;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+        }
+
+        #copyBtn:hover {
+            background-color: #218838;
+        }
+
+        #copyBtn:active {
+            transform: scale(0.98);
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Random Password Generator</h1>
+        <label for="length">Password Length:</label>
+        <input type="number" id="length" min="4" max="32" value="12">
+
+        <div class="options">
+            <label><input type="checkbox" id="includeLower" checked> Include Lowercase Letters</label><br>
+            <label><input type="checkbox" id="includeUpper"> Include Uppercase Letters</label><br>
+            <label><input type="checkbox" id="includeNumbers"> Include Numbers</label><br>
+            <label><input type="checkbox" id="includeSymbols"> Include Symbols</label>
+        </div>
+
+        <button onclick="generatePassword()">Generate Password</button>
+        <p id="result"></p>
+        <button id="copyBtn" onclick="copyPassword()">Copy to Clipboard</button>
+
+        <div class="strength-meter">
+            <label>Password Strength: <span id="strengthLabel">-</span></label>
+            <div id="strengthBar"></div>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById('length').value;
+            const includeLower = document.getElementById('includeLower').checked;
+            const includeUpper = document.getElementById('includeUpper').checked;
+            const includeNumbers = document.getElementById('includeNumbers').checked;
+            const includeSymbols = document.getElementById('includeSymbols').checked;
+
+            const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+            const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+            let allCharacters = '';
+            let mandatoryCharacters = '';
+
+            if (includeLower) {
+                allCharacters += lowerCase;
+                mandatoryCharacters += lowerCase.charAt(Math.floor(Math.random() * lowerCase.length));
+            }
+            if (includeUpper) {
+                allCharacters += upperCase;
+                mandatoryCharacters += upperCase.charAt(Math.floor(Math.random() * upperCase.length));
+            }
+            if (includeNumbers) {
+                allCharacters += numbers;
+                mandatoryCharacters += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            if (includeSymbols) {
+                allCharacters += symbols;
+                mandatoryCharacters += symbols.charAt(Math.floor(Math.random() * symbols.length));
+            }
+
+            if (allCharacters === '') {
+                document.getElementById('result').textContent = "Please select at least one option.";
+                return;
+            }
+
+            let password = mandatoryCharacters;
+            for (let i = mandatoryCharacters.length; i < length; i++) {
+                password += allCharacters.charAt(Math.floor(Math.random() * allCharacters.length));
+            }
+
+            document.getElementById('result').textContent = password;
+
+            // Check password strength
+            checkPasswordStrength(password);
+        }
+
+        // Copy to Clipboard
+        function copyPassword() {
+            const password = document.getElementById('result').textContent;
+            if (!password) return;
+
+            navigator.clipboard.writeText(password)
+                .then(() => {
+                    alert("Password copied to clipboard!");
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+        }
+
+        // Check Password Strength
+        function checkPasswordStrength(password) {
+            const strengthLabel = document.getElementById('strengthLabel');
+            const strengthBar = document.getElementById('strengthBar');
+
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[\W_]/.test(password)) strength++;
+
+            if (strength <= 2) {
+                strengthLabel.textContent = 'Weak';
+                strengthBar.setAttribute('data-strength', 'weak');
+            } else if (strength === 3) {
+                strengthLabel.textContent = 'Medium';
+                strengthBar.setAttribute('data-strength', 'medium');
+            } else {
+                strengthLabel.textContent = 'Strong';
+                strengthBar.setAttribute('data-strength', 'strong');
+            }
+        }
+
+    </script>
+</body>
+
+</html>

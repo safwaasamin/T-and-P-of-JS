@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#T1-A Find and Replace Words in an Array of Sentences</title>
+</head>
+
+<body>
+    <header>
+        <h1>Conditonal and Looping Statements, Arrays and Strings</h1>
+        <p>Task: Find and Replace Words in an Array of Sentences</p>
+    </header>
+    <script>
+        // Find and Replace Words in an Array of Sentences using conditional and looping statements, Arrays and Strings
+        function findAndReplaceWords(sentence, oldWord, newWord) {
+            const words = sentence.split(" ");
+            for (let i = 0; i < words.length; i++) {
+                if (words[i] === oldWord) {
+                    words[i] = newWord;
+                }
+            }
+            const newSentence = words.join(" ");
+            return newSentence;
+        }
+
+        // Example usage
+        const sentence = "Gratitude is not only the greatest of virtues and the parent of all the others.";
+        const oldWord = "and";
+        const newWord = "but";
+        const newSentence = findAndReplaceWords(sentence, oldWord, newWord);
+        console.log(newSentence);
+    </script>
+</body>
+
+</html>
