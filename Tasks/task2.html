@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider with Arrows</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 600px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider {
+            display: flex;
+            transition: 0.5s;
+        }
+
+        .slider-image {
+            width: 600px;
+            height: 400px;
+            display: none;
+        }
+
+        .slider-image.active {
+            display: block;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+
+        .left-arrow {
+            left: 10px;
+        }
+
+        .right-arrow {
+            right: 10px;
+        }
+
+        .arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider-container">
+        <button class="arrow left-arrow" onclick="prevImage()">&#10094;</button>
+
+        <div class="slider">
+            <img src="/assets/butterfly.png" class="slider-image">
+            <img src="/assets/sakura.png" class="slider-image">
+            <img src="/assets/tree.png" class="slider-image">
+            <img src="/assets/waterfalls.png" class="slider-image">
+        </div>
+
+        <button class="arrow right-arrow" onclick="nextImage()">&#10095;</button>
+    </div>
+
+    <script>
+        let index = 0;
+        const images = document.querySelectorAll('.slider-image');
+
+        images[index].classList.add('active');
+
+        function showImage(index) {
+            images.forEach(img => img.classList.remove('active'));
+            images[index].classList.add('active');
+        }
+
+        function prevImage() {
+            index = (index === 0) ? images.length - 1 : index - 1;
+            showImage(index);
+        }
+
+        function nextImage() {
+            index = (index === images.length - 1) ? 0 : index + 1;
+            showImage(index);
+        }
+    </script>
+</body>
+
+</html>
