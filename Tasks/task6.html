@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative SPA Example</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871);
+            background-size: 300% 300%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1em;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffc75f;
+        }
+
+        /* Content Styling */
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+            text-align: center;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3em;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .section h1 {
+            font-size: 2.5em;
+            color: #ff6f91;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section p {
+            margin-top: 10px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f, #f9f871);
+            background-size: 300% 300%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1em;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffc75f;
+        }
+
+        /* Content Styling */
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+            text-align: center;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3em;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .section h1 {
+            font-size: 2.5em;
+            color: #ff6f91;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section p {
+            margin-top: 10px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" id="nav-home">Home</a>
+        <a href="#" id="nav-about">About</a>
+        <a href="#" id="nav-contact">Contact</a>
+    </nav>
+
+    <div class="content">
+        <div id="home" class="section show">
+            <h1>Welcome to the Home Page</h1>
+            <p>This is the home section of our Single-Page Application, with a modern and fresh look.</p>
+        </div>
+
+        <div id="about" class="section">
+            <h1>About Us</h1>
+            <p>Get to know more about us and what we do in this section.</p>
+        </div>
+
+        <div id="contact" class="section">
+            <h1>Contact Us</h1>
+            <p>Feel free to reach out through the contact information provided here.</p>
+        </div>
+    </div>
+
+    <script>
+        // Select all the sections and nav links
+        const sections = {
+            home: document.getElementById('home'),
+            about: document.getElementById('about'),
+            contact: document.getElementById('contact')
+        };
+
+        const navLinks = {
+            home: document.getElementById('nav-home'),
+            about: document.getElementById('nav-about'),
+            contact: document.getElementById('nav-contact')
+        };
+
+        // Function to hide all sections and remove 'show' class
+        function hideAllSections() {
+            Object.values(sections).forEach(section => {
+                section.classList.remove('show');
+            });
+        }
+
+        // Function to show a specific section
+        function showSection(section) {
+            hideAllSections();
+            section.classList.add('show');
+        }
+
+        // Event listeners for navigation links
+        Object.keys(navLinks).forEach(key => {
+            navLinks[key].addEventListener('click', (event) => {
+                event.preventDefault();  // Prevent page reload
+                showSection(sections[key]);
+            });
+        });
+
+        // Initialize SPA by showing the home section first
+        showSection(sections.home);
+    </script>
+</body>
+
+</html>
