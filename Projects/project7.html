@@ -1,131 +1,211 @@
-<!-- Online Portfolio with Contact Form Integration - safwaa
-Concepts Covered: DOM Manipulation, Fetch API, Error Handling, Browser Events
-Challenge: Create an online portfolio with an integrated contact form that sends messages to a server using fetch. Handle form submission errors with try-catch. -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safwaa's Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Book Finder Search App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* General Styling */
+        body,
+        html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: #333;
         }
 
-        header {
-            background-color: #007bff;
+        .main-container {
+            height: 50vh;
         }
 
-        h1,
-        h2 {
-            color: white;
+        .search-box {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease;
         }
 
-        .container {
+        .title {
+            font-family: 'Lobster', cursive;
+            color: #0072ff;
+        }
+
+        .search-input {
+            border-radius: 30px 0 0 30px;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .search-btn {
+            border-radius: 0 30px 30px 0;
+            font-size: 18px;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3rem;
+        }
+
+        .results-container {
+            min-height: 50vh;
+        }
+
+        .result-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
             padding: 20px;
+            transition: transform 0.3s;
         }
 
-        footer {
-            background-color: #007bff;
-            color: white;
+        .result-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-item h4 {
+            font-size: 22px;
+            color: #0072ff;
+        }
+
+        .result-item a {
+            color: #0072ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .result-item a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header Section -->
-    <header class="bg-primary text-white text-center p-4">
-        <h1>Welcome to Safwaa's Portfolio</h1>
-    </header>
-
-    <!-- Portfolio Section -->
-    <section class="container my-5">
-        <h2 class="text-center">Projects</h2>
-        <div class="row">
-            <!-- Add project cards or descriptions here -->
+    <div class="container-fluid main-container d-flex align-items-center justify-content-center">
+        <div class="search-box p-5 shadow-lg">
+            <h1 class="text-center mb-4 title">📚 Book Finder</h1>
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control input-lg search-input"
+                    placeholder="Search for books, authors...">
+                <button class="btn btn-primary search-btn" id="searchBtn">🔍 Search</button>
+            </div>
+            <div id="error" class="text-danger mt-3 text-center"></div>
         </div>
-    </section>
+    </div>
 
-    <!-- Contact Form Section -->
-    <section class="container my-5">
-        <h2 class="text-center">Contact Me</h2>
-        <form id="contactForm" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" required>
-                <div class="invalid-feedback">Please enter your name.</div>
+    <div class="container results-container my-5">
+        <!-- Loading spinner -->
+        <div class="text-center" id="loading" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" required>
-                <div class="invalid-feedback">Please enter a valid email address.</div>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Message</label>
-                <textarea class="form-control" id="message" rows="4" required></textarea>
-                <div class="invalid-feedback">Please enter your message.</div>
-            </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
-        </form>
-        <div id="statusMessage" class="mt-3"></div>
-    </section>
+        </div>
 
-    <!-- Footer -->
-    <footer class="bg-primary text-white text-center p-3">
-        <p>© 2024 Safwaa's Portfolio</p>
-    </footer>
+        <!-- Search results will be displayed here -->
+        <div class="row" id="results"></div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // DOM Elements
-        const contactForm = document.getElementById('contactForm');
-        const statusMessage = document.getElementById('statusMessage');
+        // API URL for Open Library Search
+        const API_URL = 'https://openlibrary.org/search.json?q=';
 
-        // Form submission event
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value.trim();
 
-            // Front-end form validation
-            if (!contactForm.checkValidity()) {
-                contactForm.classList.add('was-validated');
+            // Validate query input
+            if (query === '') {
+                displayError('Please enter a search term.');
                 return;
             }
 
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
+            // Call function to fetch results
+            fetchResults(query);
+        });
+
+        // Fetch results from the Open Library API
+        const fetchResults = async (query) => {
+            const resultsContainer = document.getElementById('results');
+            const errorContainer = document.getElementById('error');
+            const loadingSpinner = document.getElementById('loading');
+
+            // Clear previous results and errors
+            resultsContainer.innerHTML = '';
+            errorContainer.innerHTML = '';
+
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
 
             try {
-                // Fetch API request
-                const response = await fetch('https://example.com/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
+                // Fetch data from the API
+                const response = await fetch(`${API_URL}${encodeURIComponent(query)}`);
 
-                // Check if request was successful
-                if (response.ok) {
-                    statusMessage.textContent = 'Your message has been sent successfully!';
-                    statusMessage.classList.add('alert', 'alert-success');
-                    contactForm.reset();
-                } else {
-                    throw new Error('Failed to send message');
+                // Check for a valid network response
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+
+                const data = await response.json();
+
+                // Handle no results found
+                if (!data.docs || data.docs.length === 0) {
+                    throw new Error('No results found for your query.');
+                }
+
+                // Display the fetched results
+                displayResults(data.docs);
             } catch (error) {
-                // Error handling
-                statusMessage.textContent = 'Error sending your message. Please try again later.';
-                statusMessage.classList.add('alert', 'alert-danger');
-                console.error('Error:', error);
+                // Handle and display any errors that occur during fetch
+                displayError(error.message);
+            } finally {
+                // Hide loading spinner after fetching is done
+                loadingSpinner.style.display = 'none';
             }
-        });
+        };
+
+        // Display the fetched results in the results container
+        const displayResults = (results) => {
+            const resultsContainer = document.getElementById('results');
+            results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('col-md-4'); // Bootstrap grid for responsiveness
+
+                // Build the result item HTML structure
+                resultItem.innerHTML = `
+      <div class="result-item p-3 mb-3">
+        <h4>${result.title}</h4>
+        <p>Author: ${result.author_name ? result.author_name.join(', ') : 'Unknown'}</p>
+        <p>First Published: ${result.first_publish_year ? result.first_publish_year : 'N/A'}</p>
+        <a href="https://openlibrary.org${result.key}" target="_blank">More Details</a>
+      </div>
+    `;
+
+                // Append the result item to the results container
+                resultsContainer.appendChild(resultItem);
+            });
+        };
+
+        // Display error messages in the error container
+        const displayError = (message) => {
+            const errorContainer = document.getElementById('error');
+            errorContainer.textContent = message;
+        };
 
     </script>
 </body>
