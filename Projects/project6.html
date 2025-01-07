@@ -14,33 +14,64 @@
     <style>
         /* General Styles */
         body {
-            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            background: linear-gradient(135deg, #e9d9ab, #f1c98d);
+            /* Marigold yellow to golden orange gradient */
             font-family: 'Poppins', sans-serif;
-            color: #444;
+            color: #333;
+        }
+
+        /* Input field and button styling */
+        #task-input {
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: 2px solid #FFC107;
+            /* Marigold yellow border */
+            transition: all 0.3s ease;
+            background-color: #FFF8E1;
+            /* Light cream background */
+        }
+
+        #task-input:focus {
+            outline: none;
+            border-color: #FF9800;
+            /* Golden orange focus color */
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+        }
+
+        #add-task-btn {
+            background-color: #FFC107;
+            /* Marigold yellow button */
+            border: none;
+            border-radius: 50%;
+            padding: 12px;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        #add-task-btn:hover {
+            background-color: #FF9800;
+            /* Golden orange on hover */
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.6);
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #3E2A47;
+            /* Deep plum color */
         }
 
         .todo-card {
             width: 100%;
             max-width: 600px;
-            background: #fff;
-            border-radius: 20px;
-        }
-
-        input::placeholder {
-            font-style: italic;
-        }
-
-        button {
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            transform: scale(1.1);
-        }
-
-        h1 {
-            font-weight: 700;
-            color: #333;
+            background: #FFF8E1;
+            /* Light cream background */
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         /* Task List Styles */
@@ -52,23 +83,48 @@
             font-size: 1.2rem;
             border: 0;
             border-radius: 12px;
-            background-color: #f9f9f9;
+            background-color: #FFE082;
+            /* Light yellow background */
             margin-bottom: 10px;
             transition: transform 0.3s ease;
         }
 
         .list-group-item:hover {
-            transform: translateX(5px);
+            transform: scale(1.02);
+            background-color: #FFEB3B;
+            /* Bright yellow on hover */
         }
 
         .completed {
             text-decoration: line-through;
-            color: grey;
+            color: #BDBDBD;
+            /* Soft gray color for completed tasks */
+            font-style: italic;
+        }
+
+        .list-group-item.completed {
+            background-color: #FFEB3B;
+            /* Bright yellow for completed tasks */
+            border-left: 4px solid #FFC107;
+            /* Marigold yellow accent */
+        }
+
+        .list-group-item .btn-group {
+            margin-left: 10px;
         }
 
         /* Icons Styles */
         button i {
             font-size: 1.2rem;
+        }
+
+        button i.fas.fa-trash {
+            color: #fff;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover i.fas.fa-trash {
+            transform: rotate(45deg);
         }
 
         /* Animations */
@@ -87,6 +143,28 @@
         ul li {
             animation: fadeIn 0.5s ease;
         }
+
+        /* Mobile View */
+        @media (max-width: 768px) {
+            .todo-card {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            #task-input {
+                margin-bottom: 10px;
+            }
+
+            #add-task-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -101,27 +179,42 @@
             <ul id="task-list" class="list-group">
                 <!-- Tasks will be added here dynamically -->
             </ul>
+
+            <!-- Buttons for clearing completed tasks -->
+            <div class="d-flex justify-content-between">
+                <button id="clear-completed-btn" class="btn btn-warning btn-sm">Clear Completed</button>
+            </div>
         </div>
     </div>
 
     <script>
         // Store tasks in an array
         let tasks = [];
+        let editingIndex = null;
 
         // DOM elements
         const taskInput = document.getElementById('task-input');
         const addTaskBtn = document.getElementById('add-task-btn');
         const taskList = document.getElementById('task-list');
+        const clearCompletedBtn = document.getElementById('clear-completed-btn');
 
         // Add task on button click
         addTaskBtn.addEventListener('click', addTask);
+
+        // Clear completed tasks on button click
+        clearCompletedBtn.addEventListener('click', clearCompletedTasks);
 
         // Add task function
         function addTask() {
             const taskText = taskInput.value.trim();
 
             if (taskText) {
-                tasks.push({ text: taskText, completed: false });
+                if (editingIndex !== null) {
+                    tasks[editingIndex].text = taskText; // Update the existing task
+                    editingIndex = null; // Reset editing index
+                } else {
+                    tasks.push({ text: taskText, completed: false }); // Add new task
+                }
                 taskInput.value = ''; // Clear input field
                 renderTasks();
             }
@@ -143,7 +236,7 @@
                 }
                 taskItem.appendChild(taskText);
 
-                // Buttons container (Complete and Delete)
+                // Buttons container (Complete, Edit, and Delete)
                 const btnContainer = document.createElement('div');
 
                 // Complete button with icon
@@ -152,6 +245,13 @@
                 completeBtn.innerHTML = `<i class="fas ${task.completed ? 'fa-undo' : 'fa-check'}"></i>`;
                 completeBtn.addEventListener('click', () => toggleComplete(index));
                 btnContainer.appendChild(completeBtn);
+
+                // Edit button with icon
+                const editBtn = document.createElement('button');
+                editBtn.className = 'btn btn-info btn-sm me-2';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                editBtn.addEventListener('click', () => editTask(index));
+                btnContainer.appendChild(editBtn);
 
                 // Delete button with icon
                 const deleteBtn = document.createElement('button');
@@ -175,6 +275,18 @@
         function deleteTask(index) {
             tasks.splice(index, 1); // Remove task from array
             renderTasks();
+        }
+
+        // Clear all completed tasks
+        function clearCompletedTasks() {
+            tasks = tasks.filter(task => !task.completed);
+            renderTasks();
+        }
+
+        // Edit task
+        function editTask(index) {
+            taskInput.value = tasks[index].text; // Set the task text in the input
+            editingIndex = index; // Set the index of the task being edited
         }
 
     </script>

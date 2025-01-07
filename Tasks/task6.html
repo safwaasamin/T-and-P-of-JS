@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Message</title>
+  <style>
+    body {
+      font-family: 'Consolas', monospace;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .container {
+      width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      border: 2px solid #444;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      font-size: 22px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #76c7c0;
+    }
+
+    label {
+      font-size: 12px;
+      margin: 10px 0 5px;
+      color: #a5a5a5;
+    }
+
+    input[type="text"] {
+      width: 94%;
+      margin: 1rem 0 1rem;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #252525;
+      color: #e0e0e0;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      border: none;
+      background: #76c7c0;
+      color: #121212;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 12px;
+      background: #1e1e1e;
+      border-radius: 5px;
+      font-size: 12px;
+      color: #76c7c0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Secure Message</h1>
+
+    <!-- Custom Message Input -->
+    <label for="custom-message">Enter Your Message</label>
+    <input type="text" id="custom-message" placeholder="Type your message here">
+
+    <button id="encrypt-btn">Encrypt & Send</button>
+    <div class="output" id="encrypted-message">Encrypted Message will appear here.</div>
+
+    <button id="decrypt-btn">Decrypt Message</button>
+    <div class="output" id="decrypted-message">Decrypted Message will appear here.</div>
+  </div>
+
+  <script>
+    class SecureMessage {
+      #message;
+      constructor(message) { this.#message = message; }
+      get encryptedMessage() { return btoa(this.#message); }
+      set decryptedMessage(encrypted) { this.#message = atob(encrypted); }
+      get originalMessage() { return this.#message; }
+    }
+
+    const [customInput, encryptBtn, decryptBtn, encDiv, decDiv] =
+      ["custom-message", "encrypt-btn", "decrypt-btn", "encrypted-message", "decrypted-message"]
+        .map(id => document.getElementById(id));
+
+    const handleMessage = (isEncrypt) => {
+      const message = customInput.value || "Hello, World!";
+      const secureMessage = new SecureMessage(message);
+      if (isEncrypt) {
+        encDiv.textContent = `Encrypted Message: ${secureMessage.encryptedMessage}`;
+      } else {
+        secureMessage.decryptedMessage = secureMessage.encryptedMessage;
+        decDiv.textContent = `Decrypted Message: ${secureMessage.originalMessage}`;
+      }
+    };
+
+    encryptBtn.addEventListener("click", () => handleMessage(true));
+    decryptBtn.addEventListener("click", () => handleMessage(false));
+    f
+  </script>
+</body>
+
+</html>

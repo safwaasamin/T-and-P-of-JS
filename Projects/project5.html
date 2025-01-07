@@ -1,3 +1,157 @@
-Typing Speed Test -  Safwaa
-Concepts Covered: Variables, Functions, DOM Manipulation, Browser Events
-Challenge: Create a typing speed test where users type a given text and their typing speed is measured. Display results and handle user input through events.
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whack-a-Mole Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: #4CAF50;
+    }
+
+    #score {
+      font-size: 24px;
+      margin: 20px;
+    }
+
+    #timer {
+      font-size: 24px;
+      margin: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .hole {
+      width: 100px;
+      height: 100px;
+      background-color: #b0bec5;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .hole.mole {
+      background-color: #ff9800;
+    }
+
+    .hole:active {
+      background-color: #f44336;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #game-over {
+      font-size: 24px;
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Whack-a-Mole Game</h1>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time: 30</div>
+  <div class="grid">
+    <div class="hole" id="hole1"></div>
+    <div class="hole" id="hole2"></div>
+    <div class="hole" id="hole3"></div>
+    <div class="hole" id="hole4"></div>
+    <div class="hole" id="hole5"></div>
+    <div class="hole" id="hole6"></div>
+    <div class="hole" id="hole7"></div>
+    <div class="hole" id="hole8"></div>
+    <div class="hole" id="hole9"></div>
+  </div>
+  <div id="game-over" class="hidden">Game Over! Final Score: <span id="final-score"></span></div>
+  <script>
+    let score = 0;
+    let activeMole = null;
+    let timeLeft = 30;
+    let gameOver = false;
+
+    const holes = document.querySelectorAll('.hole');
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const gameOverDisplay = document.getElementById('game-over');
+    const finalScoreDisplay = document.getElementById('final-score');
+
+    // Function to randomly show a mole in a hole
+    function randomHole() {
+      const randomIndex = Math.floor(Math.random() * holes.length);
+      return holes[randomIndex];
+    }
+
+    // Function to activate a mole
+    function activateMole() {
+      if (gameOver) return;
+
+      if (activeMole) {
+        activeMole.classList.remove('mole');
+      }
+      activeMole = randomHole();
+      activeMole.classList.add('mole');
+    }
+
+    // Function to handle the mole click
+    function whackMole(event) {
+      if (event.target.classList.contains('mole')) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        event.target.classList.remove('mole');
+      }
+    }
+
+    // Set up event listeners for holes
+    holes.forEach(hole => {
+      hole.addEventListener('click', whackMole);
+    });
+
+    // Countdown timer
+    function startTimer() {
+      const timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          timerDisplay.textContent = `Time: ${timeLeft}`;
+        } else {
+          clearInterval(timerInterval);
+          endGame();
+        }
+      }, 1000);
+    }
+
+    // End the game when the timer runs out
+    function endGame() {
+      gameOver = true;
+      finalScoreDisplay.textContent = score;
+      gameOverDisplay.classList.remove('hidden');
+    }
+
+    // Start the game loop (mole appears every second)
+    function startGame() {
+      startTimer();
+      setInterval(activateMole, 1000);
+    }
+
+    // Start the game when the page loads
+    startGame();
+
+  </script>
+</body>
+
+</html>

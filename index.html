@@ -13,7 +13,91 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Karla:ital,wght@0,200..800;1,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        h2 {
+    font-family: "Cinzel Decorative", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+h3 {
+    font-family: "Raleway", sans-serif;
+}
+
+p {
+    font-family: "Karla", sans-serif;
+}
+
+a {
+    font-family: "Playfair Display", serif;
+}
+
+body {
+    font-family: 'Consolas', monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #e6f2ff; /* Light blue */
+    color: #333;
+}
+
+.container {
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #dce4e9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0066cc; /* Cool blue */
+}
+
+label {
+    font-size: 14px;
+    margin: 10px 0 5px;
+    color: #666;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c6d9e6;
+    border-radius: 4px;
+    background-color: #f0f8ff;
+    color: #333;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    background: #0066cc;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.output {
+    margin-top: 20px;
+    padding: 14px;
+    background: #f0f8ff;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #0066cc;
+}
+
+    </style>
 </head>
 
 <body>
@@ -29,7 +113,7 @@
                 <p>This task implements a Bootstrap accordion for DOM questions with expandable sections.
                     JavaScript controls the toggle feature and updates arrow icons. </p>
                 <a href="/Tasks/DOM-task1.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -43,7 +127,7 @@
                 <p>This task replaces a word in a sentence by looping through an array, swapping the old word for the
                     new, and returning the updated sentence.</p>
                 <a href="/Tasks/task1.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -57,7 +141,7 @@
                 <p>The JavaScript toggles the active class to show or hide images.
                     It cycles through images using prevImage and nextImage functions on arrow clicks.</p>
                 <a href="/Tasks/task2.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -73,7 +157,7 @@
                 <p>The function checks if each word is a palindrome by cleaning and reversing it.It displays results,
                     showing whether each word is a palindrome or not.</p>
                 <a href="/Tasks/task2a.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -87,7 +171,7 @@
                 <p>Created an image slider that displays images for 3 seconds using callbacks to handle transitions
                     between them. Utilize DOM manipulation and setInterval to automate the image cycling.</p>
                 <a href="/Tasks/task3.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -102,21 +186,20 @@
                     with profile links. It handles errors for empty input, network issues, and cases where no results
                     are found. </p>
                 <a href="/Tasks/task4.html" class="icon-link" target="_blank">
-                    View Task
+                    View Task - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
                 </a>
             </div>
         </div>
-        <!-- <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
                     <i class="bi bi-5-circle-fill"></i>
                 </div>
-                <h3 class="fs-2 text-body-emphasis">Book Finder Search App</h3>
-                <p>This Book Finder app uses the Open Library API to search and display book titles, authors, and
-                    publication years. </p>
+                <h3 class="fs-2 text-body-emphasis">Fly vs Unfly Object Action</h3>
+                <p>Fly vs. Unfly: Identifies if objects can fly (e.g., birds, planes) or stay grounded (e.g., cars, humans).</p>
                 <a href="/Tasks/task5.html" class="icon-link" target="_blank">
                     View Task
                     <svg class="bi">
@@ -128,16 +211,16 @@
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
                     <i class="bi bi-6-circle-fill"></i>
                 </div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p> </p>
+                <h3 class="fs-2 text-body-emphasis">Message encrypt and decrypt</h3>
+                <p> Use JavaScript to create functions that encrypt a message and decrypt it back to its original form. This task involves string manipulation, loops, and encoding/decoding logic.</p>
                 <a href="/Tasks/task6.html" target="_blank" class="icon-link">
-                    Call to action
+                    View Task
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
                 </a>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <!-- divider -->
@@ -158,7 +241,7 @@
                 <p>IN this project, the user can generate random passwords based on their selected criteria.
                     It includes a strength meter and a copy-to-clipboard feature. </p>
                 <a href="/Projects/project1.html" target="_blank" class="icon-link">
-                    View Project
+                    View Project - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -173,7 +256,7 @@
                     questions. It employs JavaScript for content management and features a responsive design.
                 </p>
                 <a href="/Projects/project2.html" target="_blank" class="icon-link">
-                    View Project
+                    View Project - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -189,7 +272,7 @@
                     normalization and comparison to display the result
                     dynamically.</p>
                 <a href="/Projects/project3.html" target="_blank" class="icon-link">
-                    View Project
+                    View Project - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -206,12 +289,40 @@
                     by category and sorting by price. It displays product cards and manages a shopping cart, updating
                     the item count dynamically using JavaScript.</p>
                 <a href="/Projects/project4.html" target="_blank" class="icon-link">
+                    View Project - Reviewed
+                    <svg class="bi">
+                        <use xlink:href="#chevron-right"></use>
+                    </svg>
+                </a>
+            </div>
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
+                    <i class="bi bi-5-circle-fill"></i>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Whack-a-Mole Game</h3>
+                <p>The Whack-a-Mole Game uses HTML, CSS, and JavaScript to create a 30-second interactive game with moles appearing randomly and a score updated on clicks.</p>
+                <a href="./Projects/project5.html" target="_blank" class="icon-link">
                     View Project
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
                 </a>
             </div>
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
+                    <i class="bi bi-6-circle-fill"></i>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Creative TO-DO List </h3>
+                <p> A Creative to-do list app built with JavaScript that allows users to add, edit, delete, and mark tasks as complete, </p>
+                <a href="./Projects/project6.html" target="_blank" class="icon-link">
+                    View Project
+                    <svg class="bi">
+                        <use xlink:href="#chevron-right"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
                     <i class="bi bi-7-circle-fill"></i>
@@ -219,8 +330,8 @@
                 <h3 class="fs-2 text-body-emphasis">Book Finder Search App</h3>
                 <p>This Book Finder app uses the Open Library API to search and display book titles, authors, and
                     publication years.</p>
-                <a href="./Projects/project7.html" class="icon-link">
-                    View Project
+                <a href="./Projects/project7.html" target="_blank" class="icon-link">
+                    View Project - Reviewed
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
@@ -228,42 +339,12 @@
             </div>
             <!-- <div class="feature col">
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
-                    <i class="bi bi-6-circle-fill"></i>
-                </div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
-                    and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    Call to action
-                    <svg class="bi">
-                        <use xlink:href="#chevron-right"></use>
-                    </svg>
-                </a>
-            </div> -->
-        </div>
-        <!-- <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-            <div class="feature col">
-                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
-                    <i class="bi bi-7-circle-fill"></i>
-                </div>
-                <h3 class="fs-2 text-body-emphasis">Featured title</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
-                    and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    Call to action
-                    <svg class="bi">
-                        <use xlink:href="#chevron-right"></use>
-                    </svg>
-                </a>
-            </div>
-            <div class="feature col">
-                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-1 mb-3">
                     <i class="bi bi-8-circle-fill"></i>
                 </div>
                 <h3 class="fs-2 text-body-emphasis">Featured title</h3>
                 <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
                     and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
+                <a href="#" target="_blank" class="icon-link">
                     Call to action
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
@@ -277,14 +358,14 @@
                 <h3 class="fs-2 text-body-emphasis">Featured title</h3>
                 <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence
                     and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
+                <a href="#" target="_blank" class="icon-link">
                     Call to action
                     <svg class="bi">
                         <use xlink:href="#chevron-right"></use>
                     </svg>
                 </a>
-            </div>
-        </div> -->
+            </div> -->
+        </div>
     </div>
 
     <!-- divider -->
